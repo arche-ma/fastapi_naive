@@ -1,13 +1,12 @@
 import strawberry
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy.orm import Session
 from strawberry.fastapi import GraphQLRouter
-
+from cruds.cart_cruds import check_cart_items, create_cart, get_cart_by_uuid
 import models
-from db import SessionLocal, engine
 from schema.mutations import Mutations
 from schema.queries import Query
+from db import SessionLocal, engine
 from settings import settings
 
 models.Base.metadata.create_all(bind=engine)
@@ -24,20 +23,20 @@ app.include_router(graphql_app, prefix="/graphql")
 
 
 @app.middleware("http")
-async def cart_middleware(
-    request: Request,
-    call_next,
-    db_session: Session = SessionLocal(),
-):
+async def cart_middleware(request: Request, call_next):
     cart_uuid = request.cookies.get("cart_uuid", None)
     print("cart_uuid:", cart_uuid)
-    if not cart_uuid:
-        with db_session as session:
-            cart = models.Cart()
-            session.add(cart)
-            session.flush()
-            cart_uuid = cart.uuid
+    if not cart_uuid or cart_uuid == "None":
+        cart = create_cart()
+    else:
+        with SessionLocal() as session:
+            cart = get_cart_by_uuid(cart_uuid, selections=["artworks"])
+            if cart:
+                cart = check_cart_items(cart)
+            else:
+                cart = create_cart()
             session.commit()
+    cart_uuid = cart.uuid
     response = await call_next(request)
     response.set_cookie("cart_uuid", cart_uuid)
     print(request.cookies)
