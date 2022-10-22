@@ -5,30 +5,18 @@ from strawberry.types import Info
 from auth import issue_token, validate_password
 from cruds import artist_cruds, artwork_cruds
 from cruds.cart_cruds import add_items_to_cart
-from cruds.order_cruds import (
-    create_order,
-    update_customer_by_id,
-    update_order_by_id,
-)
+from cruds.order_cruds import (create_order, update_customer_by_id,
+                               update_order_by_id)
 from cruds.user_cruds import get_user_by_username
 from models import Artist, Artwork
 from permissions.admin_permission import AdminPermission
 from scalars.artist_type import ArtistInput, ArtistType, ArtistUpdateInput
 from scalars.artwork_type import ArtworkInput, ArtworkType, ArtworkUpdate
 from scalars.cart_type import CartType
-from scalars.order_type import (
-    CustomerInput,
-    CustomerType,
-    OrderInput,
-    OrderType,
-)
-from scalars.validation_type import (
-    AuthenticationFailed,
-    TokenType,
-    UserAuthResponse,
-    UserInput,
-    UserNotFound,
-)
+from scalars.order_type import (CustomerInput, CustomerType, OrderInput,
+                                OrderType)
+from scalars.validation_type import (AuthenticationFailed, TokenType,
+                                     UserAuthResponse, UserInput, UserNotFound)
 from schema.queries import Query
 from serialize import get_data
 
