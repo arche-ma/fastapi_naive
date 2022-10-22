@@ -29,9 +29,14 @@ git clone https://github.com/arche-ma/fastapi_naive
 docker-compose up -d
 
 ```
-3. Populate database with test data
+3. Populate database with test data. Use command 
 ```console
-docker exec fastapi_naive-backend-1 python populate.py
+docker ps
+```
+to see actual title of the backend container. Then launch the python script in the backend container to populate the database with test data
+
+```console
+docker exec fastapi_naive_backend_1 python populate.py
 ```
 
 After performing this three steps application should be available locally via http://12.0.0.1/graphql
