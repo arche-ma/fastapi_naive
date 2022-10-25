@@ -11,7 +11,7 @@ At the moment application is ready to perform essential tasks related to data ma
 - FastApi backend framework which does all the heavy lifting
 - Strawberry for defining graphql-schemas and data validation
 - PyJWT responsible for jwt-authentication
-- SqlAlchemy for database manipulations
+- SqlAlchemy for database manipulations.
 
 ## Database
 PostgreSQl
@@ -39,12 +39,12 @@ to see actual title of the backend container. Then launch the python script in t
 docker exec fastapi_naive_backend_1 python populate.py
 ```
 
-After performing this three steps application should be available locally via http://127.0.0.1/graphql
+After performing these three steps application should be available locally via http://127.0.0.1/graphql.
 All accessible graphql schemas and mutations are described in docs section.
 
 
 ## Operations with carts
-Current project does'nt imply user registration. User cart uuid is set in cookies so one should fetch it from there for further manipulation
+Current project doesn't imply user registration. User cart uuid is set in cookies so one should fetch it from there for further manipulations.
 
 ## Images
 Artists and artworks images should be passed to the backend using base-64 image encoding format. 
