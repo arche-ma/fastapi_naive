@@ -8,10 +8,12 @@ from schema.mutations import Mutations
 from schema.queries import Query
 from db import SessionLocal, engine
 from settings import settings
+from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
-schema = strawberry.Schema(query=Query, mutation=Mutations)
+origins = ["*"]
 
+schema = strawberry.Schema(query=Query, mutation=Mutations)
 app = FastAPI()
 app.mount(
     settings.static_url,
@@ -20,6 +22,13 @@ app.mount(
 )
 graphql_app = GraphQLRouter(schema)
 app.include_router(graphql_app, prefix="/graphql")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.middleware("http")
